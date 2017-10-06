@@ -1,13 +1,17 @@
+<template>
+    <div>
+      <div class="expense" v-for="expense in list" @click="toggle(expense)">
+        <p :class="{ done: expense.done }">{{ expense.date }} - R$ {{ expense.amount }}</p>
+        <p :class="{ done: expense.done }">{{ expense.description }}</p>
+        <a href="#" @click.prevent="askRemove(expense)" class="removeLink">remover</a>
+      </div>
+    </div>
+</template>
 
 <script>
   import { Dialog } from 'quasar'
-  import { setDone } from '../../persistence'
   export default {
-    computed: {
-      list () {
-        return this.$store.state.Expenses.list
-      }
-    },
+    props: ['list'],
     methods: {
       askRemove (expense) {
         const self = this
@@ -27,25 +31,13 @@
         })
       },
       remove (expense) {
-        this.$store.commit('REMOVE_EXPENSE', expense)
       },
       toggle (expense) {
         expense.done = !expense.done
-        setDone(expense)
       }
     }
   }
 </script>
-
-<template>
-    <div>
-      <div class="expense" v-for="expense in list" @click="toggle(expense)">
-        <p :class="{ done: expense.done }">{{ expense.date }} - R$ {{ expense.amount }}</p>
-        <p :class="{ done: expense.done }">{{ expense.description }}</p>
-        <a href="#" @click.prevent="askRemove(expense)" class="removeLink">remover</a>
-      </div>
-    </div>
-</template>
 
 <style scoped>
   .done {
