@@ -31,9 +31,11 @@
         })
       },
       remove (expense) {
+        this.$db.ref(`expense/${expense.id}`).remove()
       },
       toggle (expense) {
         expense.done = !expense.done
+        this.$db.ref(`expense/${expense.id}`).update(expense)
       }
     }
   }

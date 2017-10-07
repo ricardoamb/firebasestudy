@@ -2,14 +2,14 @@
     <form @submit.prevent="submit">
       <input ref="amount" class="my-input" type="number" v-model="expense.amount" placeholder="R$">
       <input class="my-input" type="text" v-model="expense.description" placeholder="Descrição">
-      <input class="my-input" type="text" v-model="expense.date" placeholder="Data">
+      <input class="my-input" stack-label="data" v-model="expense.date" placeholder="Data">
       <button class="primary my-button">Salvar</button>
     </form>
 </template>
 
 <script>
   import moment from 'moment'
-  import { Utils } from 'quasar'
+
   export default {
     data () {
       return {
@@ -24,8 +24,7 @@
     },
     methods: {
       submit () {
-        const cloned = JSON.parse(JSON.stringify(this.expense))
-        cloned.id = Utils.uid()
+        this.$db.ref('expense').push(this.expense)
         this.reset()
       },
       reset () {
